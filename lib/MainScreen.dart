@@ -21,6 +21,12 @@ class _MainScreenState extends State<MainScreen> {
     Note(title: 'HOloacjsjndsckms'),
   ];
 
+  void _addnote(Note nn){
+    setState(() {
+      _notes.add(nn);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => NoteScreen(),
+          builder: (_) => NoteScreen(_addnote),
         ));},
         child: Icon(Icons.add),
         backgroundColor: Colors.deepOrangeAccent,
