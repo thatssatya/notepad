@@ -12,8 +12,9 @@ class Note{
 }
 
 class NoteWidget extends StatelessWidget {
+  final Function mofo;
   final Note _note;
-  NoteWidget(this._note);
+  NoteWidget(this._note, this.mofo);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class NoteWidget extends StatelessWidget {
       splashColor: Colors.black,
       onTap: (){
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => EditNote(_note),
+          builder: (_) => EditNote(_note, mofo),
         ));
       },
       child: Container(

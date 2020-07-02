@@ -13,7 +13,8 @@ class _NoteScreenState extends State<NoteScreen> {
   final iptcontent = TextEditingController();
 
   void doitmofo(){
-    widget.addnote(Note(title: ipttile.text, text: iptcontent.text));
+    widget.addnote(Note(title: ipttile.text, text: iptcontent.text, id: DateTime.now().toString()));
+    // print(DateTime.now().toString());
   }
 
   @override

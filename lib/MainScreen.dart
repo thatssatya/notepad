@@ -10,16 +10,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final List<Note>_notes=[
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
-    Note(title: 'HOloacjsjndsckms'),
   ];
+
+  void _deletenote(String id)
+  {
+    setState(() {
+      _notes.removeWhere((element) => element.id==id);
+    });
+  }
 
   void _addnote(Note nn){
     setState(() {
@@ -51,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
               height: 550,
               child: GridView(
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(childAspectRatio: 1/1, maxCrossAxisExtent: 150, crossAxisSpacing: 15, mainAxisSpacing: 15),
-                children: _notes.map((e) => NoteWidget(e)).toList()
+                children: _notes.map((e) => NoteWidget(e, _deletenote)).toList()
               ),
             ),
           ],
