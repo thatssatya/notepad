@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'EditNote.dart';
 import 'Note.dart';
 import 'NoteScreen.dart';
 
@@ -49,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
               height: 550,
               child: GridView(
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(childAspectRatio: 1/1, maxCrossAxisExtent: 150, crossAxisSpacing: 15, mainAxisSpacing: 15),
-                children: _notes.map((e) => NoteWidget(e, _deletenote)).toList()
+                children: _notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList()
               ),
             ),
           ],

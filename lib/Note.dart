@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'EditNote.dart';
-import 'NoteScreen.dart';
 
 class Note{
   final String title;
@@ -12,9 +11,9 @@ class Note{
 }
 
 class NoteWidget extends StatelessWidget {
-  final Function mofo;
+  final Function mofo, fomo;
   final Note _note;
-  NoteWidget(this._note, this.mofo);
+  NoteWidget(this._note, this.mofo, this.fomo);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class NoteWidget extends StatelessWidget {
       splashColor: Colors.black,
       onTap: (){
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => EditNote(_note, mofo),
+          builder: (_) => EditNote(_note, mofo, fomo),
         ));
       },
       child: Container(
