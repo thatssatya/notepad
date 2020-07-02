@@ -27,14 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Center(child: Text('Notes Lelo!!!', textAlign: TextAlign.center,)),
-    );
-  }
-}
