@@ -54,32 +54,38 @@ class _NoteScreenState extends State<NoteScreen> {
           child: Column(
             children: <Widget>[
               Divider(
-                color: Colors.white,
-              ),
-              TextField(
-                controller: ipttile,
-                maxLines: 2,
-                minLines: 1,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  labelStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
+                  // color: Colors.white,
                   ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: TextField(
+                  controller: ipttile,
+                  maxLines: 2,
+                  minLines: 1,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onChanged: (_) {},
                 ),
-                onChanged: (_) {},
               ),
               //  Divider(color: Colors.white,),
-              TextField(
-                controller: iptcontent,
-                minLines: 1, maxLines: 50,
-                decoration: InputDecoration(
-                  disabledBorder: InputBorder.none,
-                  labelText: 'Content',
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: TextField(
+                  controller: iptcontent,
+                  minLines: 1, maxLines: 50,
+                  decoration: InputDecoration(
+                    disabledBorder: InputBorder.none,
+                    labelText: 'Content',
+                  ),
+                  // labelStyle: TextStyle(color: Colors.white)),
+                  // style: TextStyle(color: Colors.white),
                 ),
-                // labelStyle: TextStyle(color: Colors.white)),
-                // style: TextStyle(color: Colors.white),
-              )
+              ),
             ],
           ),
         ),

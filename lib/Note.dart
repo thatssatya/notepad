@@ -17,24 +17,42 @@ class NoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      // splashColor: Colors.black,
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => EditNote(_note, mofo, fomo),
-        ));
-      },
-      child: Container(
-        padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Center(
-          child: Text(
-            _note.title,
+    return ClipRRect(
+      key: UniqueKey(),
+      borderRadius: BorderRadius.circular(30.0),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => EditNote(_note, mofo, fomo),
+          ));
+        },
+        child: Card(
+          // color: Colors.grey[850],
+          child: ListTile(
+            title: Text(_note.title),
           ),
         ),
       ),
     );
+
+    // return InkWell(
+    //   // splashColor: Colors.black,
+    //   onTap: () {
+    //     Navigator.of(context).push(MaterialPageRoute(
+    //       builder: (_) => EditNote(_note, mofo, fomo),
+    //     ));
+    //   },
+    //   child: Container(
+    //     padding: EdgeInsets.all(15),
+    //     decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(15),
+    //     ),
+    //     child: Center(
+    //       child: Text(
+    //         _note.title,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

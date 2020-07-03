@@ -73,28 +73,34 @@ class _EditNoteState extends State<EditNote> {
           child: Column(
             children: <Widget>[
               Divider(
-                color: Colors.white,
-              ),
-              TextFormField(
-                //  initialValue: widget.note.title.toString(),
-                maxLines: 2,
-                minLines: 1,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    // color: Colors.white,
-                    fontSize: 30),
-                controller: ipttitle,
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                  labelStyle: TextStyle(
-                    // color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                  // color: Colors.white,
                   ),
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: TextFormField(
+                  //  initialValue: widget.note.title.toString(),
+                  maxLines: 2,
+                  minLines: 1,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // color: Colors.white,
+                      fontSize: 30),
+                  controller: ipttitle,
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                    labelStyle: TextStyle(
+                      // color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  //onChanged: (_){},
                 ),
-                //onChanged: (_){},
               ),
               //  Divider(color: Colors.white,),
-              TextFormField(
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: TextFormField(
                   //initialValue: widget.note.text.toString(),
                   minLines: 1,
                   maxLines: 50,
@@ -103,7 +109,11 @@ class _EditNoteState extends State<EditNote> {
                     disabledBorder: InputBorder.none, labelText: 'Content',
                     // labelStyle: TextStyle(color: Colors.white)),
                     // style: TextStyle(color: Colors.white),
-                  ))
+                  ),
+                ),
+              ),
+
+              //  Divider(color: Colors.white,),
             ],
           ),
         ),

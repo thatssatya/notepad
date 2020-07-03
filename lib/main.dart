@@ -7,10 +7,10 @@ import 'theming.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((prefs) {
-    var isDark = prefs.getBool('darkMode') ?? true;
+    var isDark = prefs.getBool('darkMode') ?? false;
     runApp(
       ChangeNotifierProvider<ThemeNotifier>(
-        create: (_) => ThemeNotifier(isDark ? darkTheme : lightTheme),
+        create: (_) => ThemeNotifier(isDark ? blackTheme : lightTheme),
         child: MyApp(),
       ),
     );

@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final _themeNotifier = Provider.of<ThemeNotifier>(context);
-    bool _darkTheme = (_themeNotifier.getTheme()) == darkTheme;
+    bool _darkTheme = (_themeNotifier.getTheme()) == blackTheme;
     return Scaffold(
       // backgroundColor: Colors.white,
       drawer: Drawer(
@@ -76,29 +76,38 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       body: Container(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 5,
-            ),
-            Divider(
-              color: Colors.white30,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              height: 550,
-              child: GridView(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      childAspectRatio: 1 / 1,
-                      maxCrossAxisExtent: 150,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15),
-                  children: _notes
-                      .map((e) => NoteWidget(e, _deletenote, _addnote))
-                      .toList()),
-            ),
-          ],
+        child: GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10.0,
+          crossAxisSpacing: 10.0,
+          padding: EdgeInsets.all(10.0),
+          children:
+              _notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList(),
         ),
+
+        // child: Column(
+        //   children: <Widget>[
+        //     SizedBox(
+        //       height: 5,
+        //     ),
+        //     Divider(
+        //         // color: Colors.white30,
+        //         ),
+        //     Container(
+        //       padding: EdgeInsets.symmetric(horizontal: 10),
+        //       height: 550,
+        //       child: GridView(
+        //           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        //               childAspectRatio: 1 / 1,
+        //               maxCrossAxisExtent: 150,
+        //               crossAxisSpacing: 15,
+        //               mainAxisSpacing: 15),
+        //           children: _notes
+        //               .map((e) => NoteWidget(e, _deletenote, _addnote))
+        //               .toList()),
+        //     ),
+        //   ],
+        // ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
