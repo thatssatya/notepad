@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'DatabaseRW.dart';
 
@@ -45,11 +46,23 @@ class _NoteScreenState extends State<NoteScreen> {
             ),
             onPressed: () {
               doitmofo();
-              writeToFile(Note(
-                title: ipttile.text,
-                text: iptcontent.text,
-                id: DateTime.now().toString(),
-              ));
+              // ChangeNotifierProvider<Storage>(
+              //   create: (_) => Storage(
+              //       2,
+              //       null,
+              //       Note(
+              //         title: ipttile.text,
+              //         text: iptcontent.text,
+              //         id: DateTime.now().toString(),
+              //       )),
+              // );
+              writeToFile(
+                Note(
+                  title: ipttile.text,
+                  text: iptcontent.text,
+                  id: DateTime.now().toString(),
+                ),
+              );
               // readFromFile();
               Navigator.of(context).pop();
             },

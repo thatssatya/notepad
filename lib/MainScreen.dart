@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:notepad/DatabaseRW.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +29,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void initState() {
     super.initState();
-    readFromFile(_notes);
+    setState(() {
+      // ChangeNotifierProvider<Storage>(
+      //   create: (_) => Storage(1, _notes, null),
+      // );
+      readFromFile(_notes);
+    });
   }
 
   @override
@@ -81,7 +88,9 @@ class _MainScreenState extends State<MainScreen> {
             ),
             onPressed: () {
               setState(() {
-                cleanDB();
+                // ChangeNotifierProvider<Storage>(
+                //     create: (_) => Storage(3, null, null));
+                cleanDB(_notes);
               });
             },
           ),

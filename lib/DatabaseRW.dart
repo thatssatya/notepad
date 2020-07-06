@@ -7,30 +7,23 @@ import 'package:path_provider_platform_interface/path_provider_platform_interfac
 import 'Note.dart';
 import 'MainScreen.dart';
 
+// class Storage with ChangeNotifier {
+//   final int n;
+//   final List<Note> notes;
+//   final Note note;
+//   Storage(this.n, this.notes, this.note);
+//   _StorageState createState() => _StorageState(_n);
+// }
+
+// class _StorageState extends State<Storage> with ChangeNotifier {
+//   final Note _n;
+//   _StorageState(this._n);
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
   // disablePathProviderPlatformOverride = true;
   print(directory.path);
   return directory.path;
 }
-
-// Future<File> get _localFile async {
-//   final path = await _localPath;
-//   return File('$path/counter.txt');
-// }
-
-// Future<String> readcontent() async {
-//   try {
-//     final file = await _localFile;
-//     // Read the file
-//     String contents = await file.readAsString();
-//     // Returning the contents of the file
-//     return contents;
-//   } catch (e) {
-//     // If encountering an error, return
-//     return 'Error!';
-//   }
-// }
 
 Future<File> get _titleFile async {
   final path = await _localPath;
@@ -64,12 +57,16 @@ Future<String> readFromFile(List<Note> n) async {
     // Process results.
     print('$line: ${line.length} bytes');
     var parts = line;
-    parts.split('x');
-    print(parts);
-    n.add(Note(title: parts[0], text: parts[1]));
+    List<String> p = parts.split(' ');
+    // parts.split('x');
+    print(p[0]);
+
+    n.add(Note(title: p[0], text: p[1]));
   }, onDone: () {
+    // notifyListeners();
     print('File is now closed.');
   }, onError: (e) {
+    // notifyListeners();
     print(e.toString());
   });
 
@@ -87,12 +84,14 @@ Future<String> readFromFile(List<Note> n) async {
   // }
 }
 
-void cleanDB() async {
+void cleanDB(List<Note> n) async {
   final file1 = await _titleFile;
   final file2 = await _contentFile;
+  n.clear();
   file1.writeAsString('');
   file2.writeAsString('');
   print('Files Deleted');
+  // notifyListeners();
 }
 
 void writeToFile(Note n) async {
@@ -100,14 +99,29 @@ void writeToFile(Note n) async {
   // final file2 = await _contentFile;
   var sink1 = file1.openWrite(mode: FileMode.append);
   sink1.write('${n.title} ${n.text}\n');
+
   sink1.close();
-  // Write the file
-  // file1.writeAsString(n.title, mode: FileMode.append);
-  // file2.writeAsString(n.text, mode: FileMode.append);
+  // notifyListeners();
 }
 
 // Future<File> writeContent(Note n) async {
 //   final file = await _contentFile;
 //   // Write the file
 //   return file.writeAsString(n.text);
+// }
+// @override
+// void initState() {
+//   super.initState();
+//   setState(() {
+//     readFromFile(n)
+//   });
+// }
+
+//   Widget build(BuildContext context) {
+//     if (n == 1)
+//       readFromFile(notes);
+//     else if (n == 2)
+//       writeToFile(note);
+//     else if (n == 3) cleanDB();
+//   }
 // }
