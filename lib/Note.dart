@@ -10,49 +10,88 @@ class Note {
   Note({@required this.title, this.date, this.id, this.text});
 }
 
-class NoteWidget extends StatelessWidget {
+class NoteWidget extends StatefulWidget {
   final Function mofo, fomo;
   final Note _note;
   NoteWidget(this._note, this.mofo, this.fomo);
+  _NoteWidgetState createState() =>
+      _NoteWidgetState(this._note, this.mofo, this.fomo);
+}
 
+class _NoteWidgetState extends State<NoteWidget> {
+  final Function mofo, fomo;
+  final Note _note;
+  _NoteWidgetState(this._note, this.mofo, this.fomo);
+  double sideLen = 10;
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      key: UniqueKey(),
-      borderRadius: BorderRadius.circular(30.0),
-      child: GestureDetector(
+    return Container(
+      // ClipRRect(
+      //   key: UniqueKey(),
+      //   borderRadius: BorderRadius.all(
+      //     Radius.circular(30.0),
+      //   ),
+
+      //   child:
+      decoration: BoxDecoration(
+        // color: Theme.of(context).accentColor,
+        border: Border.all(
+          // color: Colors.red,
+          width: 2.0,
+          color: Theme.of(context).accentColor,
+        ),
+        borderRadius: BorderRadius.all(
+          Radius.circular(30.0),
+        ),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.all(
+          Radius.circular(30.0),
+        ),
+        // focusColor: Colors.yellow,
+        // hoverColor: Colors.pink,
+        splashColor: Theme.of(context).cardColor,
+        // highlightColor: Theme.of(context).accentColor,
         onTap: () {
+          // setState(() {
+          //   sideLen == 10 ? sideLen = 1 : sideLen = 10;
+          //   Future.delayed(Duration(milliseconds: 700), () {
+          //     sideLen == 1 ? sideLen = 10 : sideLen = 7;
+          //   });
+          // });
+
+          // Future.delayed(Duration(seconds: 1), () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (_) => EditNote(_note, mofo, fomo),
           ));
+          // });
         },
-        child: Card(
-          // color: Colors.grey[850],
-          child: ListTile(
-            title: Text(_note.title),
-          ),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              // contentPadding: EdgeInsets.symmetric(vertical: 1),
+              title: Text(
+                _note.title,
+                maxLines: 1,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                _note.text,
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
+      // ),
+      // ),
+      // ),
     );
-
-    // return InkWell(
-    //   // splashColor: Colors.black,
-    //   onTap: () {
-    //     Navigator.of(context).push(MaterialPageRoute(
-    //       builder: (_) => EditNote(_note, mofo, fomo),
-    //     ));
-    //   },
-    //   child: Container(
-    //     padding: EdgeInsets.all(15),
-    //     decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(15),
-    //     ),
-    //     child: Center(
-    //       child: Text(
-    //         _note.title,
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

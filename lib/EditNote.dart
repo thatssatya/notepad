@@ -112,8 +112,6 @@ class _EditNoteState extends State<EditNote> {
                   ),
                 ),
               ),
-
-              //  Divider(color: Colors.white,),
             ],
           ),
         ),

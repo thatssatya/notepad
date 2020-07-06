@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Note.dart';
+import 'DatabaseRW.dart';
 
 class NoteScreen extends StatefulWidget {
   final Function addnote;
@@ -17,7 +18,7 @@ class _NoteScreenState extends State<NoteScreen> {
         title: ipttile.text,
         text: iptcontent.text,
         id: DateTime.now().toString()));
-    // print(DateTime.now().toString());
+    print(DateTime.now().toString());
   }
 
   @override
@@ -44,6 +45,12 @@ class _NoteScreenState extends State<NoteScreen> {
             ),
             onPressed: () {
               doitmofo();
+              writeToFile(Note(
+                title: ipttile.text,
+                text: iptcontent.text,
+                id: DateTime.now().toString(),
+              ));
+              // readFromFile();
               Navigator.of(context).pop();
             },
           ),

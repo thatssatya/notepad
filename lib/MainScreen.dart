@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/DatabaseRW.dart';
 import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'NoteScreen.dart';
@@ -10,7 +11,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<Note> _notes = [];
+  List<Note> _notes = [];
 
   void _deletenote(String id) {
     setState(() {
@@ -24,12 +25,16 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void initState() {
+    super.initState();
+    readFromFile(_notes);
+  }
+
   @override
   Widget build(BuildContext context) {
     final _themeNotifier = Provider.of<ThemeNotifier>(context);
     bool _darkTheme = (_themeNotifier.getTheme()) == blackTheme;
     return Scaffold(
-      // backgroundColor: Colors.white,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -61,53 +66,36 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       appBar: AppBar(
-        // backgroundColor: Colors.black,
-//        leading: Icon(Icons.note),
         title: Column(
           children: <Widget>[
-            // SizedBox(
-            //   height: 20,
-            // ),
             Text(
               "Notes",
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ],
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.delete,
+            ),
+            onPressed: () {
+              setState(() {
+                cleanDB();
+              });
+            },
+          ),
+        ],
       ),
       body: Container(
         child: GridView.count(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
           crossAxisCount: 2,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          padding: EdgeInsets.all(10.0),
+          mainAxisSpacing: 14.0,
+          crossAxisSpacing: 14.0,
           children:
               _notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList(),
         ),
-
-        // child: Column(
-        //   children: <Widget>[
-        //     SizedBox(
-        //       height: 5,
-        //     ),
-        //     Divider(
-        //         // color: Colors.white30,
-        //         ),
-        //     Container(
-        //       padding: EdgeInsets.symmetric(horizontal: 10),
-        //       height: 550,
-        //       child: GridView(
-        //           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        //               childAspectRatio: 1 / 1,
-        //               maxCrossAxisExtent: 150,
-        //               crossAxisSpacing: 15,
-        //               mainAxisSpacing: 15),
-        //           children: _notes
-        //               .map((e) => NoteWidget(e, _deletenote, _addnote))
-        //               .toList()),
-        //     ),
-        //   ],
-        // ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -116,7 +104,7 @@ class _MainScreenState extends State<MainScreen> {
           ));
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.deepOrangeAccent,
+        // backgroundColor: Colors.deepOrangeAccent,
       ),
     );
   }
