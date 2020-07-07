@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:notepad/DatabaseRW.dart';
+import 'package:notepad/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'NoteScreen.dart';
 import 'theming.dart';
+
+List<Note> notes = [];
 
 class MainScreen extends StatefulWidget {
   @override
@@ -13,27 +16,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Note> _notes = [];
-
+  bool initialReadDone = false;
   void _deletenote(String id) {
     setState(() {
-      _notes.removeWhere((element) => element.id == id);
+      notes.removeWhere((element) => element.id == id);
     });
   }
 
   void _addnote(Note nn) {
     setState(() {
-      _notes.add(nn);
-    });
-  }
-
-  void initState() {
-    super.initState();
-    setState(() {
-      // ChangeNotifierProvider<Storage>(
-      //   create: (_) => Storage(1, _notes, null),
-      // );
-      readFromFile(_notes);
+      notes.add(nn);
     });
   }
 
@@ -41,6 +33,16 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final _themeNotifier = Provider.of<ThemeNotifier>(context);
     bool _darkTheme = (_themeNotifier.getTheme()) == blackTheme;
+
+    final rwObj = Provider.of<ReadWrite>(context);
+
+    // if (!initialReadDone) {
+    //   initialReadDone = true;
+    //   setState(() {
+    //     rwObj.doTheOperation(_notes, null);
+    //   });
+    // }
+
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -83,14 +85,14 @@ class _MainScreenState extends State<MainScreen> {
         ),
         actions: <Widget>[
           IconButton(
+            // Clean Database
             icon: Icon(
               Icons.delete,
             ),
             onPressed: () {
               setState(() {
-                // ChangeNotifierProvider<Storage>(
-                //     create: (_) => Storage(3, null, null));
-                cleanDB(_notes);
+                rwObj.opr = 'clean';
+                rwObj.doTheOperation(notes, null);
               });
             },
           ),
@@ -103,18 +105,19 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisSpacing: 14.0,
           crossAxisSpacing: 14.0,
           children:
-              _notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList(),
+              notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => NoteScreen(_addnote),
+            builder: (_) => NoteScreen(_addnote, rwObj),
           ));
         },
         child: Icon(Icons.add),
         // backgroundColor: Colors.deepOrangeAccent,
       ),
     );
+    // );
   }
 }

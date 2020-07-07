@@ -5,15 +5,17 @@ import 'DatabaseRW.dart';
 
 class NoteScreen extends StatefulWidget {
   final Function addnote;
-  NoteScreen(this.addnote);
+  final ReadWrite rwObj;
+  NoteScreen(this.addnote, this.rwObj);
   @override
-  _NoteScreenState createState() => _NoteScreenState();
+  _NoteScreenState createState() => _NoteScreenState(rwObj);
 }
 
 class _NoteScreenState extends State<NoteScreen> {
   final ipttile = TextEditingController();
   final iptcontent = TextEditingController();
-
+  final ReadWrite rw;
+  _NoteScreenState(this.rw);
   void doitmofo() {
     widget.addnote(Note(
         title: ipttile.text,
@@ -25,9 +27,7 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
       appBar: AppBar(
-        // backgroundColor: Colors.black,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.alarm),
@@ -46,24 +46,17 @@ class _NoteScreenState extends State<NoteScreen> {
             ),
             onPressed: () {
               doitmofo();
-              // ChangeNotifierProvider<Storage>(
-              //   create: (_) => Storage(
-              //       2,
-              //       null,
-              //       Note(
-              //         title: ipttile.text,
-              //         text: iptcontent.text,
-              //         id: DateTime.now().toString(),
-              //       )),
-              // );
-              writeToFile(
-                Note(
-                  title: ipttile.text,
-                  text: iptcontent.text,
-                  id: DateTime.now().toString(),
-                ),
-              );
-              // readFromFile();
+              setState(() {
+                rw.opr = 'write';
+                rw.doTheOperation(
+                  null,
+                  Note(
+                    title: ipttile.text,
+                    text: iptcontent.text,
+                    id: DateTime.now().toString(),
+                  ),
+                );
+              });
               Navigator.of(context).pop();
             },
           ),
@@ -101,6 +94,10 @@ class _NoteScreenState extends State<NoteScreen> {
                   decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     labelText: 'Content',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      // color: Theme.of(context).accentColor,
+                    ),
                   ),
                   // labelStyle: TextStyle(color: Colors.white)),
                   // style: TextStyle(color: Colors.white),
@@ -110,6 +107,7 @@ class _NoteScreenState extends State<NoteScreen> {
           ),
         ),
       ),
+      // ),
     );
   }
 }
