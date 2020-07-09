@@ -11,32 +11,28 @@ class Note {
 }
 
 class NoteWidget extends StatefulWidget {
-  final Function mofo, fomo;
   final Note _note;
-  NoteWidget(this._note, this.mofo, this.fomo);
-  _NoteWidgetState createState() =>
-      _NoteWidgetState(this._note, this.mofo, this.fomo);
+  NoteWidget(this._note);
+  _NoteWidgetState createState() => _NoteWidgetState(this._note);
 }
 
 class _NoteWidgetState extends State<NoteWidget> {
-  final Function mofo, fomo;
   final Note _note;
-  _NoteWidgetState(this._note, this.mofo, this.fomo);
+  _NoteWidgetState(this._note);
   double sideLen = 10;
+  bool tog = false;
+
   @override
   Widget build(BuildContext context) {
+    var p = _note.id.split(' ');
+    String date = p[0];
+    var q = p[1].split('.');
+    String time = q[0].substring(0, q[0].length - 3);
+    print('${date} and ${time}');
     return Container(
-      // ClipRRect(
-      //   key: UniqueKey(),
-      //   borderRadius: BorderRadius.all(
-      //     Radius.circular(30.0),
-      //   ),
-
-      //   child:
+      // height: 500.0,
       decoration: BoxDecoration(
-        // color: Theme.of(context).accentColor,
         border: Border.all(
-          // color: Colors.red,
           width: 2.0,
           color: Theme.of(context).accentColor,
         ),
@@ -45,53 +41,80 @@ class _NoteWidgetState extends State<NoteWidget> {
         ),
       ),
       child: InkWell(
+        onLongPress: () {},
+
         borderRadius: BorderRadius.all(
           Radius.circular(30.0),
         ),
+
         // focusColor: Colors.yellow,
         // hoverColor: Colors.pink,
         splashColor: Theme.of(context).cardColor,
         // highlightColor: Theme.of(context).accentColor,
-        onTap: () {
-          // setState(() {
-          //   sideLen == 10 ? sideLen = 1 : sideLen = 10;
-          //   Future.delayed(Duration(milliseconds: 700), () {
-          //     sideLen == 1 ? sideLen = 10 : sideLen = 7;
-          //   });
-          // });
 
-          // Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => EditNote(_note, mofo, fomo),
-          ));
-          // });
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => EditNote(_note),
+            ),
+          );
         },
         child: Column(
           children: <Widget>[
-            ListTile(
-              // contentPadding: EdgeInsets.symmetric(vertical: 1),
-              title: Text(
-                _note.title,
-                maxLines: 1,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
+            Column(
+              children: <Widget>[
+                Container(
+                  height: 50.0,
+                  child: ListTile(
+                    // contentPadding: EdgeInsets.symmetric(vertical: 1),
+                    title: Text(
+                      _note.title,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 23,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  // margin: EdgeInsets.all(1.0),
+                  height: 67.0,
+                  // padding: EdgeInsets.all(10.0),
+                  child: ListTile(
+                    title: Text(
+                      _note.text,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+
+                    // trailing: Checkbox(value: null, onChanged: null),
+                  ),
+                ),
+              ],
             ),
-            ListTile(
-              title: Text(
-                _note.text,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
+            Container(
+              // padding: EdgeInsets.fromWindowPadding(, devicePixelRatio),
+              child: ListTile(
+                // contentPadding: EdgeInsets.only(top: 7.0),
+                title: Text(
+                  time,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                  ),
+                ),
+                trailing: Text(
+                  date,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                  ),
+                ),
               ),
             ),
           ],
         ),
       ),
-      // ),
-      // ),
-      // ),
     );
   }
 }

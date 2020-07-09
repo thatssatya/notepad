@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/MainScreen.dart';
 import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'DatabaseRW.dart';
+import 'MainScreen.dart';
 
 class NoteScreen extends StatefulWidget {
-  final Function addnote;
-  final ReadWrite rwObj;
-  NoteScreen(this.addnote, this.rwObj);
+  // final Function addnote;
+  // final ReadWrite rwObj;
+  // NoteScreen(this.addnote, this.rwObj);
   @override
-  _NoteScreenState createState() => _NoteScreenState(rwObj);
+  _NoteScreenState createState() => _NoteScreenState();
 }
 
 class _NoteScreenState extends State<NoteScreen> {
   final ipttile = TextEditingController();
   final iptcontent = TextEditingController();
-  final ReadWrite rw;
-  _NoteScreenState(this.rw);
+  // final ReadWrite rw;
+  // _NoteScreenState(this.rw);
   void doitmofo() {
-    widget.addnote(Note(
+    notes.add(Note(
         title: ipttile.text,
         text: iptcontent.text,
         id: DateTime.now().toString()));
+    // widget.addnote(Note(
+    //     title: ipttile.text,
+    //     text: iptcontent.text,
+    //     id: DateTime.now().toString()));
     print(DateTime.now().toString());
   }
+
+  bool isDisabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +52,25 @@ class _NoteScreenState extends State<NoteScreen> {
             icon: Icon(
               Icons.check,
             ),
-            onPressed: () {
-              doitmofo();
-              setState(() {
-                rw.opr = 'write';
-                rw.doTheOperation(
-                  null,
-                  Note(
-                    title: ipttile.text,
-                    text: iptcontent.text,
-                    id: DateTime.now().toString(),
-                  ),
-                );
-              });
-              Navigator.of(context).pop();
-            },
+            onPressed: isDisabled
+                ? null
+                : () {
+                    ReadWrite('edit').doTheOperation(
+                      null,
+                      Note(
+                        title: ipttile.text,
+                        text: iptcontent.text,
+                        id: DateTime.now().toString(),
+                      ),
+                    );
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => MainScreen(),
+                      ),
+                    );
+                  },
           ),
         ],
       ),
@@ -66,9 +78,7 @@ class _NoteScreenState extends State<NoteScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Divider(
-                  // color: Colors.white,
-                  ),
+              Divider(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: TextField(
@@ -82,25 +92,28 @@ class _NoteScreenState extends State<NoteScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onChanged: (_) {},
+                  onChanged: (_) {
+                    setState(() {
+                      ipttile.text.isEmpty
+                          ? isDisabled = true
+                          : isDisabled = false;
+                    });
+                  },
                 ),
               ),
-              //  Divider(color: Colors.white,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: TextField(
                   controller: iptcontent,
-                  minLines: 1, maxLines: 50,
+                  minLines: 1,
+                  maxLines: 50,
                   decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     labelText: 'Content',
                     labelStyle: TextStyle(
                       fontWeight: FontWeight.bold,
-                      // color: Theme.of(context).accentColor,
                     ),
                   ),
-                  // labelStyle: TextStyle(color: Colors.white)),
-                  // style: TextStyle(color: Colors.white),
                 ),
               ),
             ],

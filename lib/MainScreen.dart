@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:notepad/DatabaseRW.dart';
-import 'package:notepad/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'NoteScreen.dart';
 import 'theming.dart';
+import 'DatabaseRW.dart';
 
 List<Note> notes = [];
 
@@ -16,18 +16,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool initialReadDone = false;
-  void _deletenote(String id) {
-    setState(() {
-      notes.removeWhere((element) => element.id == id);
-    });
-  }
+  // void _deletenote(String id) {
+  //   setState(() {
+  //     notes.removeWhere((element) => element.id == id);
+  //   });
+  // }
 
-  void _addnote(Note nn) {
-    setState(() {
-      notes.add(nn);
-    });
-  }
+  // void _addnote(Note nn) {
+  //   setState(() {
+  //     notes.add(nn);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +34,6 @@ class _MainScreenState extends State<MainScreen> {
     bool _darkTheme = (_themeNotifier.getTheme()) == blackTheme;
 
     final rwObj = Provider.of<ReadWrite>(context);
-
-    // if (!initialReadDone) {
-    //   initialReadDone = true;
-    //   setState(() {
-    //     rwObj.doTheOperation(_notes, null);
-    //   });
-    // }
 
     return Scaffold(
       drawer: Drawer(
@@ -90,10 +82,13 @@ class _MainScreenState extends State<MainScreen> {
               Icons.delete,
             ),
             onPressed: () {
-              setState(() {
-                rwObj.opr = 'clean';
-                rwObj.doTheOperation(notes, null);
-              });
+              ReadWrite('clean').doTheOperation(null, null);
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MainScreen(),
+                ),
+              );
             },
           ),
         ],
@@ -104,20 +99,19 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisCount: 2,
           mainAxisSpacing: 14.0,
           crossAxisSpacing: 14.0,
-          children:
-              notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList(),
+          children: notes.map((e) => NoteWidget(e)).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => NoteScreen(_addnote, rwObj),
-          ));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => NoteScreen(),
+            ),
+          );
         },
         child: Icon(Icons.add),
-        // backgroundColor: Colors.deepOrangeAccent,
       ),
     );
-    // );
   }
 }
