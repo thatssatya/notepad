@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notepad/MainScreen.dart';
-import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'DatabaseRW.dart';
 import 'MainScreen.dart';

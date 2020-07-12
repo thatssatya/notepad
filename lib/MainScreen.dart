@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
     final _themeNotifier = Provider.of<ThemeNotifier>(context);
     bool _darkTheme = (_themeNotifier.getTheme()) == blackTheme;
 
-    final rwObj = Provider.of<ReadWrite>(context);
+    // final rwObj = Provider.of<ReadWrite>(context);
 
     return Scaffold(
       drawer: Drawer(

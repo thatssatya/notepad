@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notepad/DatabaseRW.dart';
 import 'package:notepad/MainScreen.dart';
-import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'DatabaseRW.dart';
 import 'MainScreen.dart';
@@ -28,7 +27,7 @@ class _EditNoteState extends State<EditNote> {
     iptcontent = TextEditingController(
       text: n.text,
     ); //c
-    // TODO: implement initState
+    // implement initState
     super.initState();
   }
 
@@ -130,6 +129,9 @@ class _EditNoteState extends State<EditNote> {
                   decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     labelText: 'Content',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   onChanged: (_) {
                     setState(() {

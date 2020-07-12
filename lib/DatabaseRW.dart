@@ -20,14 +20,20 @@ Future<File> get _titleFile async {
 class ReadWrite with ChangeNotifier {
   String opr;
   ReadWrite(this.opr);
+  String key = 'fGFGqweFvfgFVGv21^&%23e@#';
 
   void writeToFile(List<Note> n) async {
     final file1 = await _titleFile;
     var sink1 = file1.openWrite(mode: FileMode.append);
     print('Into writing files');
+    String title, content;
     for (int i = 0; i < n.length; ++i) {
-      print('Writing ${n[i].title} ${n[i].text}');
-      sink1.write('${n[i].title}fuck2020${n[i].text}fuck2020${n[i].id}\n');
+      title = n[i].title.replaceAll('\n', '#@\t@#');
+      content = n[i].text.replaceAll('\n', '#@\t@#');
+      // print('after replacing - $s');
+      print('Writing $title $content ${n[i].id}');
+
+      sink1.write('$title$key$content$key${n[i].id}\n');
     }
     print('New Files Written');
     sink1.close();
@@ -41,8 +47,11 @@ class ReadWrite with ChangeNotifier {
     inputStream.transform(utf8.decoder).transform(new LineSplitter()).listen(
         (String line) {
       var parts = line;
-      List<String> p = parts.split('fuck2020');
-      print(p);
+      List<String> p = parts.split(key);
+      // print(p);
+      p[0] = p[0].replaceAll('#@\t@#', '\n');
+      p[1] = p[1].replaceAll('#@\t@#', '\n');
+      // print(p);
       print('Reading Note - title: ${p[0]} & content: ${p[1]} & id: ${p[2]}');
       notes.add(Note(
         title: p[0],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:notepad/main.dart';
 import 'MainScreen.dart';
 import 'DatabaseRW.dart';
 // import 'package:splashscreen/splashscreen.dart';
@@ -23,9 +22,9 @@ class _InitScreenState extends State<InitScreen> {
 
     if (!initialReadDone) {
       initialReadDone = true;
-      // setState(() {
-      ReadWrite('read').doTheOperation(null, null);
-      // });
+      setState(() {
+        ReadWrite('read').doTheOperation(null, null);
+      });
     }
 
     // Navigator.of(context).pop();
@@ -53,7 +52,9 @@ class _InitScreenState extends State<InitScreen> {
         //       : 'assets/icon/icon_dark.png'),
         child: Text(
           'NotePad',
-          style: TextStyle(fontSize: 50.0),
+          style: TextStyle(
+            fontSize: 50.0,
+          ),
         ),
         //   ],
         // ),

@@ -3,7 +3,7 @@ import 'EditNote.dart';
 
 class Note {
   final String title;
-  final String text;
+  String text;
   final String id;
   final DateTime date;
 
@@ -28,7 +28,7 @@ class _NoteWidgetState extends State<NoteWidget> {
     String date = p[0];
     var q = p[1].split('.');
     String time = q[0].substring(0, q[0].length - 3);
-    print('${date} and ${time}');
+    // print('${date} and ${time}');
     return Container(
       // height: 500.0,
       decoration: BoxDecoration(
