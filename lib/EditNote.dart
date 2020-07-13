@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/DatabaseRW.dart';
+import 'package:notepad/MainScreen.dart';
 import 'Note.dart';
+import 'DatabaseRW.dart';
+import 'MainScreen.dart';
 
 class EditNote extends StatefulWidget {
   final Note note;
-  final Function del, add;
-  EditNote(this.note, this.del, this.add);
+  EditNote(this.note);
 
   @override
-  _EditNoteState createState() => _EditNoteState();
+  _EditNoteState createState() => _EditNoteState(note);
 }
 
 class _EditNoteState extends State<EditNote> {
-//  Note get hola{return widget.note;}
-//  final Note nnn = hola;
+  Note n;
+  _EditNoteState(this.n);
   dynamic ipttitle;
   dynamic iptcontent;
+  bool isDisabled = true;
   @override
   void initState() {
-    ipttitle = TextEditingController(text: widget.note.title);
-    iptcontent = TextEditingController(text: widget.note.text);
-    // TODO: implement initState
+    ipttitle = TextEditingController(
+      text: n.title,
+    ); //c
+    iptcontent = TextEditingController(
+      text: n.text,
+    ); //c
+    // implement initState
     super.initState();
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.black,
       appBar: AppBar(
-        // backgroundColor: Colors.black,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.alarm),
@@ -38,33 +43,53 @@ class _EditNoteState extends State<EditNote> {
           IconButton(
             icon: Icon(
               Icons.fiber_pin,
-              // color: Colors.white,
             ),
             onPressed: () {},
           ),
           IconButton(
             icon: Icon(
               Icons.delete,
-              // color: Colors.white,
             ),
             onPressed: () {
-              widget.del(widget.note.id);
+              ReadWrite('edit').doTheOperation(
+                n.id,
+                null,
+              );
+
               Navigator.of(context).pop();
+              Navigator.of(context).pop();
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MainScreen(),
+                ),
+              );
             },
           ),
           IconButton(
             icon: Icon(
               Icons.check,
-              // color: Colors.white,
             ),
-            onPressed: () {
-              widget.del(widget.note.id);
-              widget.add(Note(
-                  id: DateTime.now().toString(),
-                  title: ipttitle.text,
-                  text: iptcontent.text));
-              Navigator.of(context).pop();
-            },
+            onPressed: isDisabled
+                ? null
+                : () {
+                    ReadWrite('edit').doTheOperation(
+                      n.id,
+                      Note(
+                        id: DateTime.now().toString(),
+                        title: ipttitle.text,
+                        text: iptcontent.text,
+                      ),
+                    );
+
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => MainScreen(),
+                      ),
+                    );
+                  },
           ),
         ],
       ),
@@ -72,48 +97,51 @@ class _EditNoteState extends State<EditNote> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Divider(
-                  // color: Colors.white,
-                  ),
-
+              Divider(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: TextFormField(
-                  //  initialValue: widget.note.title.toString(),
                   maxLines: 2,
                   minLines: 1,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      // color: Colors.white,
-                      fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                   controller: ipttitle,
                   decoration: InputDecoration(
                     labelText: 'Title',
                     labelStyle: TextStyle(
-                      // color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  //onChanged: (_){},
+                  onChanged: (_) {
+                    setState(() {
+                      (ipttitle.text == n.title || ipttitle.text.isEmpty)
+                          ? isDisabled = true
+                          : isDisabled = false;
+                    });
+                  },
                 ),
               ),
-              //  Divider(color: Colors.white,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: TextFormField(
-                  //initialValue: widget.note.text.toString(),
                   minLines: 1,
                   maxLines: 50,
                   controller: iptcontent,
                   decoration: InputDecoration(
-                    disabledBorder: InputBorder.none, labelText: 'Content',
-                    // labelStyle: TextStyle(color: Colors.white)),
-                    // style: TextStyle(color: Colors.white),
+                    disabledBorder: InputBorder.none,
+                    labelText: 'Content',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  onChanged: (_) {
+                    setState(() {
+                      (iptcontent.text == n.text)
+                          ? isDisabled = true
+                          : isDisabled = false;
+                    });
+                  },
                 ),
               ),
-
-              //  Divider(color: Colors.white,),
             ],
           ),
         ),

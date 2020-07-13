@@ -1,8 +1,14 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:notepad/DatabaseRW.dart';
 import 'package:provider/provider.dart';
 import 'Note.dart';
 import 'NoteScreen.dart';
 import 'theming.dart';
+import 'DatabaseRW.dart';
+
+List<Note> notes = [];
 
 class MainScreen extends StatefulWidget {
   @override
@@ -10,26 +16,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final List<Note> _notes = [];
+  // void _deletenote(String id) {
+  //   setState(() {
+  //     notes.removeWhere((element) => element.id == id);
+  //   });
+  // }
 
-  void _deletenote(String id) {
-    setState(() {
-      _notes.removeWhere((element) => element.id == id);
-    });
-  }
-
-  void _addnote(Note nn) {
-    setState(() {
-      _notes.add(nn);
-    });
-  }
+  // void _addnote(Note nn) {
+  //   setState(() {
+  //     notes.add(nn);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     final _themeNotifier = Provider.of<ThemeNotifier>(context);
     bool _darkTheme = (_themeNotifier.getTheme()) == blackTheme;
+
+    // final rwObj = Provider.of<ReadWrite>(context);
+
     return Scaffold(
-      // backgroundColor: Colors.white,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -61,62 +67,50 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       appBar: AppBar(
-        // backgroundColor: Colors.black,
-//        leading: Icon(Icons.note),
         title: Column(
           children: <Widget>[
-            // SizedBox(
-            //   height: 20,
-            // ),
             Text(
               "Notes",
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ],
         ),
+        actions: <Widget>[
+          IconButton(
+            // Clean Database
+            icon: Icon(
+              Icons.delete,
+            ),
+            onPressed: () {
+              ReadWrite('clean').doTheOperation(null, null);
+              Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MainScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         child: GridView.count(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
           crossAxisCount: 2,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
-          padding: EdgeInsets.all(10.0),
-          children:
-              _notes.map((e) => NoteWidget(e, _deletenote, _addnote)).toList(),
+          mainAxisSpacing: 14.0,
+          crossAxisSpacing: 14.0,
+          children: notes.map((e) => NoteWidget(e)).toList(),
         ),
-
-        // child: Column(
-        //   children: <Widget>[
-        //     SizedBox(
-        //       height: 5,
-        //     ),
-        //     Divider(
-        //         // color: Colors.white30,
-        //         ),
-        //     Container(
-        //       padding: EdgeInsets.symmetric(horizontal: 10),
-        //       height: 550,
-        //       child: GridView(
-        //           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        //               childAspectRatio: 1 / 1,
-        //               maxCrossAxisExtent: 150,
-        //               crossAxisSpacing: 15,
-        //               mainAxisSpacing: 15),
-        //           children: _notes
-        //               .map((e) => NoteWidget(e, _deletenote, _addnote))
-        //               .toList()),
-        //     ),
-        //   ],
-        // ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => NoteScreen(_addnote),
-          ));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => NoteScreen(),
+            ),
+          );
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.deepOrangeAccent,
       ),
     );
   }
